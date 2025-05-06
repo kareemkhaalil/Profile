@@ -49,6 +49,7 @@ export default function HeroSection() {
   }, [phrases]);
 
   return (
+    
     <section
       id="hero"
       className="min-h-screen flex items-center pt-20 overflow-hidden relative"
@@ -99,7 +100,7 @@ export default function HeroSection() {
             <div className="relative">
               <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-[#00CCFF] to-[#0A2647] opacity-20 blur-xl animate-pulse-slow"></div>
               <img
-                src="https://pixabay.com/get/g2359d917fc772149c3372581478418dc15f862529fe7d315279a0289555070d9de5708dad4ca046ad53d0bcc2c47ee6f649e7fd7b4a27278d415e8f6f97dbcd4_1280.jpg"
+                src="https://i.imgur.com/GTWBeRR.jpeg"
                 alt="Mobile App Developer Portrait"
                 className="rounded-full w-64 h-64 object-cover border-4 border-[#00CCFF] animate-float"
               />

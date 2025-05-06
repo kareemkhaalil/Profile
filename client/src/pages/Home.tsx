@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import Header from '@/components/Header';
-import MobileMenu from '@/components/MobileMenu';
-import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import PortfolioSection from '@/components/PortfolioSection';
-import SkillsSection from '@/components/SkillsSection';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
-import BackToTop from '@/components/BackToTop';
-import { checkSections } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import Header from "@/components/Header";
+import MobileMenu from "@/components/MobileMenu";
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import PortfolioSection from "@/components/PortfolioSection";
+import SkillsSection from "@/components/SkillsSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
+import { checkSections } from "@/lib/utils";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -16,12 +16,12 @@ export default function Home() {
   useEffect(() => {
     // Initial check for sections in viewport
     checkSections();
-    
+
     // Scroll event listener to animate sections
-    window.addEventListener('scroll', checkSections);
-    
+    window.addEventListener("scroll", checkSections);
+
     return () => {
-      window.removeEventListener('scroll', checkSections);
+      window.removeEventListener("scroll", checkSections);
     };
   }, []);
 
@@ -37,7 +37,7 @@ export default function Home() {
     <>
       <Header toggleMobileMenu={toggleMobileMenu} />
       <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
-      
+
       <main>
         <HeroSection />
         <AboutSection />
@@ -45,7 +45,7 @@ export default function Home() {
         <SkillsSection />
         <ContactSection />
       </main>
-      
+
       <Footer />
       <BackToTop />
     </>

@@ -40,7 +40,8 @@ export default function ContactSection() {
       await apiRequest("POST", "/api/contact/message", data);
       toast({
         title: "Message sent successfully! 📧",
-        description: "Thanks for reaching out! I'll receive your message immediately and reply to your email soon.",
+        description:
+          "Thanks for reaching out! I'll receive your message immediately and reply to your email soon.",
         variant: "default",
         duration: 5000,
       });
@@ -113,28 +114,22 @@ export default function ContactSection() {
                 <h3 className="text-lg font-medium mb-4">Follow Me</h3>
                 <div className="flex space-x-4">
                   <a
-                    href="#"
+                    href="https://github.com/kareemkhaalil/"
                     className="w-10 h-10 rounded-full bg-[#2D2D2D] flex items-center justify-center text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors"
                   >
                     <i className="ri-github-fill"></i>
                   </a>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/kareemahmedkhalil/"
                     className="w-10 h-10 rounded-full bg-[#2D2D2D] flex items-center justify-center text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors"
                   >
                     <i className="ri-linkedin-fill"></i>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/kareem__khalil"
                     className="w-10 h-10 rounded-full bg-[#2D2D2D] flex items-center justify-center text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors"
                   >
                     <i className="ri-twitter-fill"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-[#2D2D2D] flex items-center justify-center text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors"
-                  >
-                    <i className="ri-dribbble-line"></i>
                   </a>
                 </div>
               </div>
@@ -152,7 +147,7 @@ export default function ContactSection() {
               <p className="text-lg text-[#B0B0B0]">
                 Feel free to reach out to me directly via email:
               </p>
-              <a 
+              <a
                 href="mailto:karem2003.kk@gmail.com?subject=Portfolio Contact"
                 className="inline-block px-8 py-4 rounded-full bg-[#00CCFF] text-[#121212] font-medium hover:bg-[#33D6FF] transition-all duration-300"
               >
