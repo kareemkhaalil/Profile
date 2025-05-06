@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 20 14.3% 4.1%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --primary: 207 85% 15%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 207 65% 36%;
+    --secondary-foreground: 24 9.8% 10%;
+    --accent: 194 100% 50%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --ring: 20 14.3% 4.1%;
+    --radius: 0.5rem;
+    
+    --chart-1: 207 85% 15%;
+    --chart-2: 207 65% 36%;
+    --chart-3: 194 100% 50%;
+    --chart-4: 207 85% 25%;
+    --chart-5: 207 65% 46%;
+    
+    --dark: 0 0% 7%;
+    --dark-light: 0 0% 12%;
+    --dark-lighter: 0 0% 18%;
+    --light: 0 0% 88%;
+    --light-dark: 0 0% 69%;
+  }
+  
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --primary: 207 85% 15%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 207 65% 36%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 194 100% 50%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: 240 4.9% 83.9%;
+    
+    --dark: 0 0% 7%;
+    --dark-light: 0 0% 12%;
+    --dark-lighter: 0 0% 18%;
+    --light: 0 0% 88%;
+    --light-dark: 0 0% 69%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-inter antialiased bg-[#121212] text-[#E0E0E0] overflow-x-hidden min-h-screen;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.flutter-gradient {
+  background: linear-gradient(-45deg, #0A2647, #144272, #205295, #00CCFF);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+.glow {
+  box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+}
+
+.progress-bar {
+  position: relative;
+  height: 6px;
+  background-color: #2D2D2D;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-value {
+  height: 100%;
+  background: linear-gradient(90deg, #00CCFF, #0A2647);
+  border-radius: 3px;
+  transition: width 1s ease-in-out;
+}
+
+.section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu {
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-item {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease-out;
+}
+
+.mobile-menu.open .mobile-menu-item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Delay each menu item entrance for cascade effect */
+.mobile-menu.open .mobile-menu-item:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu.open .mobile-menu-item:nth-child(2) { transition-delay: 0.2s; }
+.mobile-menu.open .mobile-menu-item:nth-child(3) { transition-delay: 0.3s; }
+.mobile-menu.open .mobile-menu-item:nth-child(4) { transition-delay: 0.4s; }
+.mobile-menu.open .mobile-menu-item:nth-child(5) { transition-delay: 0.5s; }
