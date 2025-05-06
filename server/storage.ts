@@ -211,17 +211,24 @@ export class DatabaseStorage implements IStorage {
     // First, check if any settings exist
     const existingSettings = await this.getSiteSettings();
     
+    // Convert jsonb fields to any type to avoid type errors
+    const preparedSettings = {
+      ...settings,
+      socialLinks: settings.socialLinks as any,
+      contactInfo: settings.contactInfo as any
+    };
+    
     if (existingSettings) {
       // Update existing settings
       const [updatedSettings] = await db
         .update(siteSettings)
-        .set({ ...settings, updatedAt: new Date() })
+        .set({ ...preparedSettings, updatedAt: new Date() })
         .where(eq(siteSettings.id, existingSettings.id))
         .returning();
       return updatedSettings;
     } else {
       // Create new settings
-      const [newSettings] = await db.insert(siteSettings).values(settings).returning();
+      const [newSettings] = await db.insert(siteSettings).values(preparedSettings).returning();
       return newSettings;
     }
   }
