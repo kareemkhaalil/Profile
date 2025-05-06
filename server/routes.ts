@@ -31,6 +31,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Save the contact message to the database
       const result = await storage.saveContactMessage(validatedData);
+
+      // Send email
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_APP_PASSWORD
+        }
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: 'karem2003.kk@gmail.com', // Your email
+        subject: `New Contact Form Submission: ${validatedData.subject}`,
+        html: `
+          <h3>New Contact Form Submission</h3>
+          <p><strong>Name:</strong> ${validatedData.name}</p>
+          <p><strong>Email:</strong> ${validatedData.email}</p>
+          <p><strong>Subject:</strong> ${validatedData.subject}</p>
+          <p><strong>Message:</strong> ${validatedData.message}</p>
+        `
+      };
+
+      await transporter.sendMail(mailOptions);
       
       res.status(200).json({ message: "Message received successfully", id: result.id });
     } catch (error) {
