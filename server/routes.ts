@@ -39,13 +39,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const transporter = nodemailer.createTransport({
+        service: 'gmail',
         host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_APP_PASSWORD
-        }
+        },
+        debug: true
       });
 
       const mailOptions = {
@@ -62,10 +64,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       try {
-        await transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully:', info.response);
       } catch (emailError) {
         console.error('Email sending failed:', emailError);
-        throw new Error('Failed to send email');
+        return res.status(500).json({ message: 'Failed to send email', error: emailError.message });
       }
       
       res.status(200).json({ message: "Message received successfully", id: result.id });
