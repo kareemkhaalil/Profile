@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import nodemailer from "nodemailer";
 import { 
   contactSchema, 
   portfolioItemSchema, 
@@ -33,8 +34,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const result = await storage.saveContactMessage(validatedData);
 
       // Send email
+      if (!process.env.EMAIL_USER || !process.env.EMAIL_APP_PASSWORD) {
+        throw new Error('Email credentials not configured');
+      }
+
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_APP_PASSWORD
@@ -43,7 +50,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: 'karem2003.kk@gmail.com', // Your email
+        to: process.env.EMAIL_USER, // Send to the same email
         subject: `New Contact Form Submission: ${validatedData.subject}`,
         html: `
           <h3>New Contact Form Submission</h3>
@@ -54,7 +61,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         `
       };
 
-      await transporter.sendMail(mailOptions);
+      try {
+        await transporter.sendMail(mailOptions);
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        throw new Error('Failed to send email');
+      }
       
       res.status(200).json({ message: "Message received successfully", id: result.id });
     } catch (error) {
