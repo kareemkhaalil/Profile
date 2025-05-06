@@ -259,6 +259,30 @@ function WebsiteManagementTab() {
 
 // Portfolio Tab Component
 function PortfolioTab({ items }: { items: PortfolioItem[] }) {
+  const { toast } = useToast();
+
+  const handleEdit = (id: number) => {
+    toast({
+      title: "Edit Project",
+      description: `Editing project ${id}`,
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    toast({
+      title: "Delete Project",
+      description: `Deleting project ${id}`,
+      variant: "destructive",
+    });
+  };
+
+  const handleAddProject = () => {
+    toast({
+      title: "Add Project",
+      description: "Adding new project",
+    });
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -267,7 +291,10 @@ function PortfolioTab({ items }: { items: PortfolioItem[] }) {
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Manage Portfolio</h2>
-        <button className="px-4 py-2 rounded-full bg-[#00CCFF] text-[#121212] hover:bg-[#33D6FF] transition-colors">
+        <button 
+          onClick={handleAddProject}
+          className="px-4 py-2 rounded-full bg-[#00CCFF] text-[#121212] hover:bg-[#33D6FF] transition-colors"
+        >
           <i className="ri-add-line mr-2"></i>Add Project
         </button>
       </div>
@@ -301,10 +328,16 @@ function PortfolioTab({ items }: { items: PortfolioItem[] }) {
                   </td>
                   <td className="py-3 px-4 text-right">
                     <div className="flex justify-end space-x-2">
-                      <button className="p-2 rounded bg-[#00CCFF]/20 text-[#00CCFF] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors">
+                      <button 
+                        onClick={() => handleEdit(item.id)}
+                        className="p-2 rounded bg-[#00CCFF]/20 text-[#00CCFF] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors"
+                      >
                         <i className="ri-edit-line"></i>
                       </button>
-                      <button className="p-2 rounded bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
+                      <button 
+                        onClick={() => handleDelete(item.id)}
+                        className="p-2 rounded bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
+                      >
                         <i className="ri-delete-bin-line"></i>
                       </button>
                     </div>
