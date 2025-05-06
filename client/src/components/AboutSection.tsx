@@ -29,7 +29,7 @@ export default function AboutSection() {
                 </div>
               </div>
               <img
-                src="https://i.imgur.com/GTWBeRR.jpeg"
+                src="https://avatars.githubusercontent.com/u/35874983?s=400&u=ad3946ce5e944537e5ce3c2036176a4c1c972720&v=4"
                 alt="Mobile App Developer Working"
                 className="w-full h-auto rounded-xl"
               />
