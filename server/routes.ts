@@ -52,14 +52,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER, // Send to the same email
+        to: process.env.EMAIL_USER,
+        replyTo: validatedData.email, // Allow direct reply
         subject: `New Contact Form Submission: ${validatedData.subject}`,
         html: `
-          <h3>New Contact Form Submission</h3>
-          <p><strong>Name:</strong> ${validatedData.name}</p>
-          <p><strong>Email:</strong> ${validatedData.email}</p>
-          <p><strong>Subject:</strong> ${validatedData.subject}</p>
-          <p><strong>Message:</strong> ${validatedData.message}</p>
+          <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5;">
+            <h2 style="color: #00CCFF;">New Contact Form Submission</h2>
+            <div style="background-color: white; padding: 20px; border-radius: 5px;">
+              <p><strong>From:</strong> ${validatedData.name}</p>
+              <p><strong>Email:</strong> ${validatedData.email}</p>
+              <p><strong>Subject:</strong> ${validatedData.subject}</p>
+              <div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #00CCFF;">
+                <p><strong>Message:</strong></p>
+                <p>${validatedData.message}</p>
+              </div>
+            </div>
+            <p style="color: #666; font-size: 12px;">You can reply directly to this email to respond to ${validatedData.name}</p>
+          </div>
         `
       };
 

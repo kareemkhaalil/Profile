@@ -39,9 +39,10 @@ export default function ContactSection() {
     try {
       await apiRequest("POST", "/api/contact/message", data);
       toast({
-        title: "Message sent!",
-        description: "Thanks for reaching out, I'll get back to you soon.",
+        title: "Message sent successfully! 📧",
+        description: "Thanks for reaching out! I'll receive your message immediately and reply to your email soon.",
         variant: "default",
+        duration: 5000,
       });
       reset();
     } catch (error) {
