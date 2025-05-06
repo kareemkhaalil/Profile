@@ -14,8 +14,21 @@ export function ProtectedRoute({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAdminAuthenticated');
-    setIsAuthenticated(authStatus === 'true');
+    fetch('/api/user', {
+      credentials: 'include'
+    })
+    .then(res => {
+      if (res.ok) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        localStorage.removeItem('isAdminAuthenticated');
+      }
+    })
+    .catch(() => {
+      setIsAuthenticated(false);
+      localStorage.removeItem('isAdminAuthenticated');
+    });
   }, []);
 
   if (isAuthenticated === null) {

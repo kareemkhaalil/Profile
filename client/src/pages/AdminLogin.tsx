@@ -9,14 +9,24 @@ export default function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simple authentication for demo purposes
-    // In a real app, this would be a server API call
-    setTimeout(() => {
-      if (password === 'admin123') {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          username: 'admin',
+          password: password 
+        }),
+        credentials: 'include'
+      });
+
+      if (response.ok) {
         localStorage.setItem('isAdminAuthenticated', 'true');
         toast({
           title: "Login successful",
@@ -25,14 +35,17 @@ export default function AdminLogin() {
         });
         setLocation('/admin-dashboard');
       } else {
-        toast({
-          title: "Login failed",
-          description: "Invalid password",
-          variant: "destructive",
-        });
+        throw new Error('Invalid credentials');
       }
+    } catch (error) {
+      toast({
+        title: "Login failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
