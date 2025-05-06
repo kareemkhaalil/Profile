@@ -148,111 +148,20 @@ export default function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    placeholder="Your Name"
-                    className={`w-full px-4 py-3 bg-[#121212] rounded-lg border ${errors.name ? "border-red-500" : "border-[#2D2D2D]"} focus:border-[#00CCFF] focus:outline-none focus:ring-1 focus:ring-[#00CCFF] transition-colors`}
-                    {...register("name")}
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-red-500 text-sm">
-                      {errors.name.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    placeholder="Your Email"
-                    className={`w-full px-4 py-3 bg-[#121212] rounded-lg border ${errors.email ? "border-red-500" : "border-[#2D2D2D]"} focus:border-[#00CCFF] focus:outline-none focus:ring-1 focus:ring-[#00CCFF] transition-colors`}
-                    {...register("email")}
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-red-500 text-sm">
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  placeholder="Subject"
-                  className={`w-full px-4 py-3 bg-[#121212] rounded-lg border ${errors.subject ? "border-red-500" : "border-[#2D2D2D]"} focus:border-[#00CCFF] focus:outline-none focus:ring-1 focus:ring-[#00CCFF] transition-colors`}
-                  {...register("subject")}
-                />
-                {errors.subject && (
-                  <p className="mt-1 text-red-500 text-sm">
-                    {errors.subject.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  placeholder="Your Message"
-                  className={`w-full px-4 py-3 bg-[#121212] rounded-lg border ${errors.message ? "border-red-500" : "border-[#2D2D2D]"} focus:border-[#00CCFF] focus:outline-none focus:ring-1 focus:ring-[#00CCFF] transition-colors resize-none`}
-                  {...register("message")}
-                ></textarea>
-                {errors.message && (
-                  <p className="mt-1 text-red-500 text-sm">
-                    {errors.message.message}
-                  </p>
-                )}
-              </div>
-
-              <motion.button
-                type="submit"
-                className="px-6 py-3 rounded-full bg-[#00CCFF] text-[#121212] font-medium hover:bg-[#33D6FF] transition-all duration-300 flex items-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                disabled={isSubmitting}
+            <div className="text-center space-y-6">
+              <p className="text-lg text-[#B0B0B0]">
+                Feel free to reach out to me directly via email:
+              </p>
+              <a 
+                href="mailto:karem2003.kk@gmail.com?subject=Portfolio Contact"
+                className="inline-block px-8 py-4 rounded-full bg-[#00CCFF] text-[#121212] font-medium hover:bg-[#33D6FF] transition-all duration-300"
               >
-                {isSubmitting ? (
-                  <>
-                    Processing{" "}
-                    <i className="ri-loader-4-line ml-2 animate-spin"></i>
-                  </>
-                ) : (
-                  <>
-                    Send Message <i className="ri-send-plane-line ml-2"></i>
-                  </>
-                )}
-              </motion.button>
-            </form>
+                Send Email <i className="ri-mail-send-line ml-2"></i>
+              </a>
+              <p className="text-sm text-[#808080] mt-4">
+                I'll get back to you as soon as possible!
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
