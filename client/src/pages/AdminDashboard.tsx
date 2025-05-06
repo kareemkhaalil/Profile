@@ -260,27 +260,79 @@ function WebsiteManagementTab() {
 // Portfolio Tab Component
 function PortfolioTab({ items }: { items: PortfolioItem[] }) {
   const { toast } = useToast();
+  const [projects, setProjects] = useState(items);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentProject, setCurrentProject] = useState<PortfolioItem | null>(null);
 
-  const handleEdit = (id: number) => {
-    toast({
-      title: "Edit Project",
-      description: `Editing project ${id}`,
-    });
+  const handleEdit = async (id: number) => {
+    const project = projects.find(p => p.id === id);
+    if (project) {
+      setCurrentProject(project);
+      setIsEditing(true);
+    }
   };
 
-  const handleDelete = (id: number) => {
-    toast({
-      title: "Delete Project",
-      description: `Deleting project ${id}`,
-      variant: "destructive",
-    });
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await fetch(`/api/portfolio/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        setProjects(projects.filter(p => p.id !== id));
+        toast({
+          title: "Success",
+          description: "Project deleted successfully",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete project",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSaveProject = async (formData: any) => {
+    try {
+      const method = currentProject ? 'PUT' : 'POST';
+      const url = currentProject ? `/api/portfolio/${currentProject.id}` : '/api/portfolio';
+      
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const savedProject = await response.json();
+        if (currentProject) {
+          setProjects(projects.map(p => p.id === currentProject.id ? savedProject : p));
+        } else {
+          setProjects([...projects, savedProject]);
+        }
+        setIsEditing(false);
+        setCurrentProject(null);
+        toast({
+          title: "Success",
+          description: "Project saved successfully",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save project",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleAddProject = () => {
-    toast({
-      title: "Add Project",
-      description: "Adding new project",
-    });
+    setCurrentProject(null);
+    setIsEditing(true);
   };
 
   return (
@@ -435,7 +487,36 @@ function SkillsTab({ technicalSkills, softSkills }: { technicalSkills: Skill[], 
 }
 
 // Messages Tab Component
-function MessagesTab({ messages }: { messages: ContactMessage[] }) {
+function MessagesTab({ messages: initialMessages }: { messages: ContactMessage[] }) {
+  const [messages, setMessages] = useState(initialMessages);
+  const { toast } = useToast();
+
+  const handleDeleteMessage = async (id: number) => {
+    try {
+      const response = await fetch(`/api/contact-messages/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        setMessages(messages.filter(m => m.id !== id));
+        toast({
+          title: "Success",
+          description: "Message deleted successfully",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete message",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleReplyEmail = (email: string) => {
+    window.location.href = `mailto:${email}`;
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -461,10 +542,14 @@ function MessagesTab({ messages }: { messages: ContactMessage[] }) {
             </div>
             <p className="text-[#E0E0E0] mb-4">{message.message}</p>
             <div className="flex justify-end space-x-3">
-              <button className="px-4 py-2 rounded-full bg-[#2D2D2D] text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors">
+              <button 
+                onClick={() => handleReplyEmail(message.email)}
+                className="px-4 py-2 rounded-full bg-[#2D2D2D] text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212] transition-colors">
                 <i className="ri-mail-send-line mr-2"></i>Reply
               </button>
-              <button className="px-4 py-2 rounded-full bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
+              <button 
+                onClick={() => handleDeleteMessage(message.id)}
+                className="px-4 py-2 rounded-full bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
                 <i className="ri-delete-bin-line mr-2"></i>Delete
               </button>
             </div>
@@ -490,15 +575,48 @@ function SettingsTab() {
   const [primaryColor, setPrimaryColor] = useState('#00CCFF');
   const { toast } = useToast();
   
-  const handleSaveSettings = (e: React.FormEvent) => {
+  const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real app, this would save to a database
-    toast({
-      title: "Settings saved",
-      description: "Your website settings have been updated",
-      variant: "default",
-    });
+    try {
+      const settingsData = {
+        siteTitle,
+        siteDescription,
+        primaryColor,
+        socialLinks: {
+          github: e.currentTarget['github'].value,
+          linkedin: e.currentTarget['linkedin'].value,
+          twitter: e.currentTarget['twitter'].value,
+        },
+        contactInfo: {
+          email: e.currentTarget['email'].value,
+          phone: e.currentTarget['phone'].value,
+          location: e.currentTarget['location'].value,
+        }
+      };
+
+      const response = await fetch('/api/site-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settingsData),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Settings saved",
+          description: "Your website settings have been updated",
+          variant: "default",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save settings",
+        variant: "destructive",
+      });
+    }
   };
   
   return (
