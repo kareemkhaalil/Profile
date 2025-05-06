@@ -87,6 +87,9 @@ export default function AdminDashboard() {
             <TabsTrigger value="messages" className="flex-1 py-3">
               <i className="ri-mail-line mr-2"></i>Messages
             </TabsTrigger>
+            <TabsTrigger value="website" className="flex-1 py-3">
+              <i className="ri-global-line mr-2"></i>Website
+            </TabsTrigger>
             <TabsTrigger value="settings" className="flex-1 py-3">
               <i className="ri-settings-line mr-2"></i>Settings
             </TabsTrigger>
@@ -104,12 +107,153 @@ export default function AdminDashboard() {
             <MessagesTab messages={contactMessages} />
           </TabsContent>
           
+          <TabsContent value="website" className="mt-6">
+            <WebsiteManagementTab />
+          </TabsContent>
           <TabsContent value="settings" className="mt-6">
             <SettingsTab />
           </TabsContent>
         </Tabs>
       </main>
     </div>
+  );
+}
+
+// Website Management Tab
+function WebsiteManagementTab() {
+  const { toast } = useToast();
+  const [redirects, setRedirects] = useState([
+    { from: '/blog', to: '/posts' },
+    { from: '/about-us', to: '/about' }
+  ]);
+  
+  const [meta, setMeta] = useState({
+    title: "John Dev - Mobile App Developer",
+    description: "Professional mobile app developer specializing in Flutter and Dart",
+    keywords: "mobile app, flutter, dart, developer",
+    ogImage: "https://example.com/og-image.jpg"
+  });
+
+  const handleSaveChanges = () => {
+    toast({
+      title: "Changes saved",
+      description: "Website settings have been updated successfully",
+    });
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Website Management</h2>
+        <button 
+          onClick={handleSaveChanges}
+          className="px-4 py-2 rounded-full bg-[#00CCFF] text-[#121212] hover:bg-[#33D6FF] transition-colors"
+        >
+          <i className="ri-save-line mr-2"></i>Save Changes
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6">
+        {/* SEO Settings */}
+        <div className="bg-[#1E1E1E] rounded-xl p-6">
+          <h3 className="text-xl font-semibold mb-4">SEO Settings</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Meta Title</label>
+              <input
+                type="text"
+                value={meta.title}
+                onChange={(e) => setMeta({ ...meta, title: e.target.value })}
+                className="w-full px-4 py-2 bg-[#121212] rounded-lg border border-[#2D2D2D] focus:border-[#00CCFF]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Meta Description</label>
+              <textarea
+                value={meta.description}
+                onChange={(e) => setMeta({ ...meta, description: e.target.value })}
+                className="w-full px-4 py-2 bg-[#121212] rounded-lg border border-[#2D2D2D] focus:border-[#00CCFF]"
+                rows={3}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Keywords</label>
+              <input
+                type="text"
+                value={meta.keywords}
+                onChange={(e) => setMeta({ ...meta, keywords: e.target.value })}
+                className="w-full px-4 py-2 bg-[#121212] rounded-lg border border-[#2D2D2D] focus:border-[#00CCFF]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">OG Image URL</label>
+              <input
+                type="text"
+                value={meta.ogImage}
+                onChange={(e) => setMeta({ ...meta, ogImage: e.target.value })}
+                className="w-full px-4 py-2 bg-[#121212] rounded-lg border border-[#2D2D2D] focus:border-[#00CCFF]"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* URL Redirects */}
+        <div className="bg-[#1E1E1E] rounded-xl p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">URL Redirects</h3>
+            <button 
+              onClick={() => setRedirects([...redirects, { from: '', to: '' }])}
+              className="px-3 py-1 rounded-full bg-[#2D2D2D] text-[#B0B0B0] hover:bg-[#00CCFF] hover:text-[#121212]"
+            >
+              <i className="ri-add-line mr-1"></i>Add Redirect
+            </button>
+          </div>
+          
+          <div className="space-y-3">
+            {redirects.map((redirect, index) => (
+              <div key={index} className="flex items-center space-x-3">
+                <input
+                  type="text"
+                  value={redirect.from}
+                  onChange={(e) => {
+                    const newRedirects = [...redirects];
+                    newRedirects[index].from = e.target.value;
+                    setRedirects(newRedirects);
+                  }}
+                  placeholder="From path"
+                  className="flex-1 px-4 py-2 bg-[#121212] rounded-lg border border-[#2D2D2D] focus:border-[#00CCFF]"
+                />
+                <i className="ri-arrow-right-line text-[#B0B0B0]"></i>
+                <input
+                  type="text"
+                  value={redirect.to}
+                  onChange={(e) => {
+                    const newRedirects = [...redirects];
+                    newRedirects[index].to = e.target.value;
+                    setRedirects(newRedirects);
+                  }}
+                  placeholder="To path"
+                  className="flex-1 px-4 py-2 bg-[#121212] rounded-lg border border-[#2D2D2D] focus:border-[#00CCFF]"
+                />
+                <button
+                  onClick={() => {
+                    const newRedirects = redirects.filter((_, i) => i !== index);
+                    setRedirects(newRedirects);
+                  }}
+                  className="p-2 rounded-full bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white"
+                >
+                  <i className="ri-delete-bin-line"></i>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
