@@ -4,6 +4,35 @@ import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from '@/hooks/use-toast';
 
+// Type definitions
+interface PortfolioItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+  links: {
+    preview?: string;
+    github?: string;
+    appStore?: string;
+    playStore?: string;
+  };
+}
+
+interface Skill {
+  name: string;
+  percentage: number;
+}
+
+interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+}
+
 // Mock data - in a real app this would come from a database
 import portfolioItems from '@/data/portfolioItems';
 import { technicalSkills, softSkills } from '@/data/skills';
@@ -85,7 +114,7 @@ export default function AdminDashboard() {
 }
 
 // Portfolio Tab Component
-function PortfolioTab({ items }) {
+function PortfolioTab({ items }: { items: PortfolioItem[] }) {
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -147,7 +176,7 @@ function PortfolioTab({ items }) {
 }
 
 // Skills Tab Component
-function SkillsTab({ technicalSkills, softSkills }) {
+function SkillsTab({ technicalSkills, softSkills }: { technicalSkills: Skill[], softSkills: Skill[] }) {
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -229,7 +258,7 @@ function SkillsTab({ technicalSkills, softSkills }) {
 }
 
 // Messages Tab Component
-function MessagesTab({ messages }) {
+function MessagesTab({ messages }: { messages: ContactMessage[] }) {
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -284,7 +313,7 @@ function SettingsTab() {
   const [primaryColor, setPrimaryColor] = useState('#00CCFF');
   const { toast } = useToast();
   
-  const handleSaveSettings = (e) => {
+  const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
     
     // In a real app, this would save to a database

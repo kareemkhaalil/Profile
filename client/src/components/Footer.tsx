@@ -1,3 +1,5 @@
+import { Link } from 'wouter';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   
@@ -12,9 +14,14 @@ export default function Footer() {
             </a>
           </div>
           
-          <p className="text-[#B0B0B0] text-sm text-center md:text-right">
-            &copy; {currentYear} John Developer. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center md:items-end">
+            <p className="text-[#B0B0B0] text-sm mb-2">
+              &copy; {currentYear} John Developer. All rights reserved.
+            </p>
+            <Link to="/admin-login" className="text-xs text-[#666666] hover:text-[#00CCFF] transition-colors">
+              Admin Login
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
