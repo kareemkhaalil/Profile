@@ -115,7 +115,10 @@ export default function AboutSection() {
             </div>
 
             <motion.a
-              href="#"
+              href="/Kareem_Khalil_Resume.pdf"
+              download
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 rounded-full bg-[#00CCFF] text-[#121212] font-medium hover:bg-[#33D6FF] transition-all duration-300 transform hover:-translate-y-1"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

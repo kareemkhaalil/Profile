@@ -37,7 +37,7 @@ export default function ContactSection() {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      await apiRequest("POST", "/api/contact", data);
+      await apiRequest("POST", "/api/contact/message", data);
       toast({
         title: "Message sent!",
         description: "Thanks for reaching out, I'll get back to you soon.",
